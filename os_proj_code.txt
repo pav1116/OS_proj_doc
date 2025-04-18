@@ -1,0 +1,21 @@
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<linux/kernel.h> 
+#include<sys/syscall.h> 
+#include<unistd.h> 
+#include<errno.h>
+#define MY_CALL 333 
+int main () 
+{
+    printf("Testing custom system call % d\n",MY_CALL); 
+    long ret = syscall(MY_CALL);
+    if (ret < 0) 
+    {
+        perror("System call failed"); 
+        return EXIT_FAILURE;
+    }
+    printf("System call successful.Returned:%ld\n",ret);
+    printf("\n Kernel log messages:\n");
+    system("dmesg | grep ’Custom system call ’ | tail -2 ");
+    return EXIT_SUCCESS;
+}
